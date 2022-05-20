@@ -41,7 +41,10 @@ const circle = regl({
     u_res: (_, { res }: Props) => res,
     u_time: ({ time }) => time,
     u_strength: (_, { strength }) => [strength, MAX_STRENGTH - strength],
-    u_amplitude: (_, { amplitude }) => [amplitude, amplitude],
+    u_amplitude: (_, { amplitude }) => [
+      Math.max(Math.abs(amplitude), 15),
+      Math.max(Math.abs(amplitude), 15),
+    ],
   },
   count: 4,
   primitive: 'triangle fan',
@@ -59,7 +62,7 @@ const windowSize = {
   y: window.innerHeight,
 };
 
-window.addEventListener('mousemove', (e) => {
+canvas.addEventListener('mousemove', (e) => {
   config.strength = (e.clientX * MAX_STRENGTH) / windowSize.x;
   config.amplitude = ((e.clientY / windowSize.y) * 2 - 1) * MAX_AMPLITUDE;
 });
