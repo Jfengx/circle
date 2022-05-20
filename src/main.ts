@@ -8,12 +8,12 @@ type Config = 'strength' | 'amplitude';
 
 type Props = Record<Config, number> & { res: number[] };
 
-const MAX_STRENGTH = 10;
-const MAX_AMPLITUDE = 15;
+const MAX_STRENGTH = 15;
+const MAX_AMPLITUDE = 110;
 
 const config: Pick<Props, Config> = {
   strength: 1,
-  amplitude: 105,
+  amplitude: 110,
 };
 
 const canvas = document.querySelector<HTMLCanvasElement>('canvas')!;
@@ -42,8 +42,8 @@ const circle = regl({
     u_time: ({ time }) => time,
     u_strength: (_, { strength }) => [strength, MAX_STRENGTH - strength],
     u_amplitude: (_, { amplitude }) => [
-      Math.max(Math.abs(amplitude), MAX_AMPLITUDE),
-      Math.max(Math.abs(amplitude), MAX_AMPLITUDE),
+      MAX_AMPLITUDE - Math.abs(amplitude),
+      MAX_AMPLITUDE - Math.abs(amplitude),
     ],
   },
   count: 4,
@@ -63,10 +63,11 @@ const windowSize = {
 };
 
 canvas.addEventListener('mousemove', (e) => {
-  // config.strength = (e.clientX * MAX_STRENGTH) / windowSize.x;
-  // config.amplitude = ((e.clientY / windowSize.y) * 2 - 1) * MAX_AMPLITUDE;
+  config.strength = (e.clientX * MAX_STRENGTH) / windowSize.x;
+  config.amplitude = ((e.clientY / windowSize.y) * 2 - 1) * MAX_AMPLITUDE;
 });
 
 regl.frame(() => {
+  console.log(Math.abs(config.amplitude));
   circle({ res: [canvasWidth, canvasHeight], ...config });
 });
