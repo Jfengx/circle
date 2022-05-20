@@ -7,7 +7,7 @@ const vec3 BLACK = vec3(0.);
 const vec3 WHITE = vec3(1.);
 
 uniform float u_time;
-uniform vec2 u_res;
+uniform vec2 u_res, u_strength, u_amplitude;
 
 
 vec4 waveCircle(
@@ -35,11 +35,9 @@ void main() {
 
   float lineWidth = .004;
   float radius = .2;
-  float strength = 4.;
-  float amplitude = 100.;
 
-  vec4 leftCircle = waveCircle(leftP, lineWidth, radius, strength, 8., amplitude);
-  vec4 rightCircle = waveCircle(rightP, lineWidth, radius, strength, 8., amplitude);
+  vec4 leftCircle = waveCircle(leftP, lineWidth, radius, u_strength[0], 8., u_amplitude[0]);
+  vec4 rightCircle = waveCircle(rightP, lineWidth, radius, u_strength[1], 8., u_amplitude[1]);
 
 
   vec4 left = leftCircle * vec4(WHITE, 1.);
