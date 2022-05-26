@@ -8,6 +8,7 @@ const vec3 WHITE = vec3(1.);
 
 uniform float u_time;
 uniform vec2 u_res, u_strength, u_amplitude;
+uniform sampler2D u_texture;
 
 
 vec4 waveCircle(
@@ -30,6 +31,8 @@ vec4 waveCircle(
 void main() {
   vec2 p = (gl_FragCoord.xy * 2. - u_res.xy) / u_res.x;
 
+  vec2 uv = gl_FragCoord.xy / u_res;
+
   vec2 leftP = p + vec2(.5, 0.);
   vec2 rightP = p - vec2(.5, 0.);
 
@@ -39,10 +42,12 @@ void main() {
   vec4 leftCircle = waveCircle(leftP, lineWidth, radius, u_strength[0], 8., u_amplitude[0]);
   vec4 rightCircle = waveCircle(rightP, lineWidth, radius, u_strength[1], 8., u_amplitude[1]);
 
+  float area = gl_FragCoord.x / u_res.x < .5 ? 0. : 1.;
 
   vec4 left = leftCircle * vec4(WHITE, 1.);
   vec4 right = vec4((vec3(1.) - rightCircle.rgb + BLACK), 1.);
-  vec4 color =  mix(left, right, gl_FragCoord.x / u_res.x < .5 ? 0. : 1.);
-  
-  gl_FragColor = color;
+  vec4 color =  mix(left, right, area);
+
+  vec4 texture = texture2D(u_texture, uv);
+  gl_FragColor = mix(color * texture, color + texture , area);
 }

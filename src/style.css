@@ -19,6 +19,12 @@ canvas {
   height: 100vh;
 }
 
+img {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden,
+}
+
 h2 {
   position: absolute;
   top: 3vh;
