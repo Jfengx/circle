@@ -19,3 +19,10 @@ float circleLine(float lineWidth, float radius, float dist) {
   return circle(radius - lineWidth / 2., radius, dist) -
     circle(radius, radius + lineWidth / 2., dist);
 }
+
+vec4 grey(vec4 col) {
+  vec4 color = col;
+  float val = 0.299 * color.r + 0.578 * color.g + 0.114 * color.b;
+  color.rgb = vec3(val);
+  return color;
+}

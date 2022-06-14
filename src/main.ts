@@ -17,7 +17,7 @@ const config: Pick<Props, Config> = {
 };
 
 const canvas = document.querySelector<HTMLCanvasElement>('canvas')!;
-const img = document.querySelector<HTMLImageElement>('img')!;
+// const img = document.querySelector<HTMLImageElement>('img')!;
 
 const dpr = window.devicePixelRatio;
 const canvasWidth = canvas.offsetWidth * dpr;
@@ -27,7 +27,7 @@ canvas.height = canvasHeight;
 
 const regl = createREGL({ canvas });
 
-const texture = regl.texture({ data: img, flipY: true });
+// const texture = regl.texture({ data: img, flipY: true });
 
 const circle = regl({
   vert,
@@ -41,7 +41,7 @@ const circle = regl({
     ],
   },
   uniforms: {
-    u_texture: texture,
+    // u_texture: texture,
     u_res: (_, { res }: Props) => res,
     u_time: ({ time }) => time,
     u_strength: (_, { strength }) => [strength, MAX_STRENGTH - strength],
